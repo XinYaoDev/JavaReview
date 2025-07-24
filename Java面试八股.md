@@ -35,7 +35,7 @@
 1. **private方法不能被覆盖**，因为它只能在当前类中访问，子类无法访问和重写。
 2. **static方法也不能被覆盖**，因为静态方法是编译时绑定的，与对象实例无关，无法进行动态绑定。虽然静态方法可以被继承，但**如果子类有相同名称和参数的静态方法，它会隐藏父类的方法，而不是覆盖**，这意味着没有多态性。
 
-#### 3. Java 中创建对象的几种方式？
+#### 3. Java 中创建对象的几种方式？（4种）
 
 1. **new**：使用`new`关键字。
 2. **反射**：通过`Java.lang.reflect.Constructor`的`newInstance()`方法动态创建对象。
@@ -44,7 +44,7 @@
 
 #### 4. 抽象类和接口有什么区别？ 
 
-1. **目的不同**：抽象类用于继承，接口用于重写。
+1. **目的不同**：抽象类用于继承，接口用于实现，接口的方法是用于重写的。
 2. **构造方法**：抽象类可以有构造方法，接口不能。
 3. **方法定义**：抽象类可以有**抽象方法**和**具体方法**，接口只能有**抽象方法**。
 4. **成员权限**：抽象类成员可为**public、default、protected**，接口成员只能是**public。**
@@ -55,12 +55,12 @@
 1. 接口可以包含有默认实现的**default方法**。
 2. 接口可以包含**静态方法**（只能通过接口调用），但不能包含静态代码块。
 
-#### 5. String 为什么要设计为不可变类？
+#### 5. String 为什么要设计为不可变类？（3点）
 
 在Java中将String设计成不可变的是综合考虑到各种因素的结果。主要的原因有以下三点：
 
 1. **字符串常量池**：**字符串常量池**是Java中的一个特殊内存区域，存储字符串常量。当创建一个`String`对象时，如果该字符串已经存在于常量池中，Java会直接引用已有的对象，而不是重新创建一个新的对象。
-2. **允许String对象HashCode缓存**：哈希码（hashCode）是对象的一个整型值，常用于在哈希容器（如`HashMap`、`HashSet`）中进行快速查找。。`String`在许多数据结构中充当键（例如在`HashMap`中），所以`String`对象的哈希码会被频繁使用。如果每次都要重新计算`String`对象的哈希码，会浪费计算资源并影响性能。
+2. **允许String对象HashCode缓存**：哈希码（hashCode）是对象的一个整型值，常用于在哈希容器（如`HashMap`、`HashSet`）中进行快速查找。`String`在许多数据结构中充当键（例如在`HashMap`中），所以`String`对象的哈希码会被频繁使用。如果每次都要重新计算`String`对象的哈希码，会浪费计算资源并影响性能。
 3. **String被许多的Java类（库）用来当做参数**：例如：网络连接地址URL、文件路径path、还有反射机制所需要的**String参数**等，假若String不是固定不变的，将会引起各种安全隐患。
 
 **追加问题：String是怎么设计成不可变的？-- polarDB春招二面问题**
@@ -143,7 +143,7 @@ public final class String {
 
 #### 12. 为什么重写 equals() 就一定要重写 hashCode() 方法？
 
-在 Java 中，当一个类重写了 `equals()` 方法时，强烈推荐同时也重写 `hashCode()` 方法。这是因为 **Java 的集合框架以及其他依赖于散列码的结构**（如 `HashMap`, `HashSet` 等）对这两个方法的实现有特定的要求
+在 Java 中，当一个类重写了 `equals()` 方法时，强烈推荐同时也重写 `hashCode()` 方法。这是因为 **Java 的集合框架以及其他依赖于散列码的结构**（如 `HashMap`, `HashSet` 等）对这两个方法的实现有特定的要求。
 
 **相关规定**：
 
@@ -160,7 +160,7 @@ public final class String {
 **举例：**
 
 ```Java
-java复制代码public class Person {
+public class Person {
     private String name;
     private int age;
 
@@ -355,7 +355,6 @@ Objcet类有包括`clone` 、`equals`，`finalize`、`getClass`、`hashCode`等�
 1. **Java 对象序列化**：使用 Java 原生流（如 `ObjectOutputStream` 和 `ObjectInputStream`）进行对象的序列化和反序列化。
 2. **JSON 序列化**：通过库（如 Jackson）将对象转化为 JSON 格式或从 JSON 转回对象。这是**常见且广泛使用**的序列化方式。
 3. **ProtoBuff 序列化**：一种高效的结构化数据存储格式，适用于压缩数据并减少传输大小，提升系统性能
-4. 。
 
 #### 什么是反射？应用场景？原理？
 
@@ -417,7 +416,7 @@ public class ReflectionExample {
 
 例如，**Spring 的 `@Autowired`** 注解就是运行时注解，可以通过反射在运行时获取注解信息，如是否为 `required`。
 
-### 重载和重写的区别？
+#### 重载和重写的区别？
 
 - 方法重载发生在同一个类中，同名的方法如果有不同的参数（参数类型不同、参数个数不同或者二者都不同）。
 - 方法重写发生在子类与父类之间，要求子类与父类具有相同的返回类型，方法名和参数列表，并且不能比父类的方法声明更多的异常，遵守里氏代换原则。
@@ -505,7 +504,9 @@ Java序列化是指将对象的状态转换为字节流，以便可以存储到�
    - 这对于那些不需要持久化（如临时状态信息、敏感信息等）的字段非常有用。
    
 2. **自定义序列化过程**：
-   - 实现`Serializable`接口的类可以通过提供两个特殊的方法来控制序列化过程：`private void writeObject(ObjectOutputStream out) throws IOException` 和 `private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException`。
+   - 实现`Serializable`接口的类可以通过提供两个特殊的方法来控制序列化过程：
+     - `private void writeObject(ObjectOutputStream out) throws IOException` 
+     -  `private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException`。
    - 在这些方法中，你可以选择哪些字段应该被序列化以及如何进行序列化/反序列化处理。
 
 #### 深拷贝与浅拷贝
